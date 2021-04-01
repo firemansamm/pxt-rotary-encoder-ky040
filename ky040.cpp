@@ -49,7 +49,7 @@ namespace RotaryEncoder {
   void onRR(){runAction0(rightRotate);}
 
   void onPress(){
-    cA(pressRotate);
+    runAction0(pressRotate);
   }
   
   void onRotated(){
