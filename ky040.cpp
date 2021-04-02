@@ -81,6 +81,6 @@ namespace RotaryEncoder {
     dsw = new DigitalIn((PinName)sw);
     create_fiber(monitorPress);
     tsb.start(); //interrupt timer for debounce
-    ri->fall(&rh, RotateHandler::onRotated);
+    ri->fall(&rh, &RotateHandler::onRotated);
   }
 }
