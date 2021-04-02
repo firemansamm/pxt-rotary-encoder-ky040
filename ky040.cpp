@@ -52,6 +52,7 @@ namespace RotaryEncoder {
     runAction0(pressRotate);
   }
   class RotateHandler {
+    public:
     void onRotated(){
       uint32_t now = tsb.read_ms();
       if(now - lri < 50) return;
@@ -59,7 +60,8 @@ namespace RotaryEncoder {
       if(dv->read()) create_fiber(onLR);//fire right rotate
       else create_fiber(onRR); //fire left rotate
     }
-  }
+  };
+  
   RotateHandler rh;
 
   void monitorPress(){
