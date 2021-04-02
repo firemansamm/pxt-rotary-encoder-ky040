@@ -51,14 +51,16 @@ namespace RotaryEncoder {
   void onPress(){
     runAction0(pressRotate);
   }
-  
-  void onRotated(){
-    uint32_t now = tsb.read_ms();
-    if(now - lri < 50) return;
-    lri = now;
-    if(dv->read()) create_fiber(onLR);//fire right rotate
-    else create_fiber(onRR); //fire left rotate
+  class RotateHandler {
+    void onRotated(){
+      uint32_t now = tsb.read_ms();
+      if(now - lri < 50) return;
+      lri = now;
+      if(dv->read()) create_fiber(onLR);//fire right rotate
+      else create_fiber(onRR); //fire left rotate
+    }
   }
+  RotateHandler rh;
 
   void monitorPress(){
     //printf("entering fiber\r\n");
@@ -79,6 +81,6 @@ namespace RotaryEncoder {
     dsw = new DigitalIn((PinName)sw);
     create_fiber(monitorPress);
     tsb.start(); //interrupt timer for debounce
-    ri->fall(&onRotated);
+    ri->fall(&rh, RotateHandler::onRotated);
   }
 }
